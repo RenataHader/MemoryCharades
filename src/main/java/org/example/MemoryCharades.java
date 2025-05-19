@@ -1,31 +1,31 @@
 package org.example;
 
 import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.geometry.Rectangle2D;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
-
-import java.sql.Connection;
-import java.sql.DriverManager;
 
 public class MemoryCharades extends Application {
 
-    @Override
-    public void start(Stage stage) {
-        Label label = new Label("Welcome to Memory Charades!");
-        Scene scene = new Scene(label, 400, 200);
-        stage.setScene(scene);
-        stage.setTitle("Memory Charades");
-        stage.show();
+    public void start(Stage primaryStage) throws Exception {
+        Parent root = FXMLLoader.load(getClass().getResource("/org/example/MemoryGameView.fxml"));
+        Rectangle2D screenBounds = Screen.getPrimary().getVisualBounds();
+        Scene scene = new Scene(root, screenBounds.getWidth(), screenBounds.getHeight());
+        primaryStage.setTitle("Memory Game (FXML)");
+        primaryStage.setScene(scene);
+        primaryStage.setX(screenBounds.getMinX());
+        primaryStage.setY(screenBounds.getMinY());
+        primaryStage.setWidth(screenBounds.getWidth());
+        primaryStage.setHeight(screenBounds.getHeight());
+        primaryStage.setMaximized(true);
 
-        try (Connection conn = DriverManager.getConnection("jdbc:sqlite:test.db")) {
-            System.out.println("Połączono z bazą danych!");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        primaryStage.show();
     }
 
     public static void main(String[] args) {
-        launch();
+        launch(args);
     }
 }

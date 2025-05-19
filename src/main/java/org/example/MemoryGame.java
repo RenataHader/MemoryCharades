@@ -5,8 +5,8 @@ import java.util.Collections;
 import java.util.List;
 
 public class MemoryGame extends Game {
-    private int rows = 4;
-    private int cols = 4;
+    private int rows = 3;
+    private int cols = 8;
     private Card[][] board;
     private int matchedPairs;
     private int currentPlayerIndex;

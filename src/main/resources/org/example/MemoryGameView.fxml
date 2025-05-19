@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.StackPane?>
+
+<StackPane xmlns="http://javafx.com/javafx"
+           xmlns:fx="http://javafx.com/fxml"
+           fx:controller="org.example.MemoryGameView">
+
+    <ImageView fx:id="backgroundImage"
+               pickOnBounds="true"
+               preserveRatio="false"
+               StackPane.alignment="CENTER" />
+
+    <BorderPane>
+
+        <top>
+            <Region prefHeight="100"/>
+        </top>
+
+        <left>
+            <VBox prefWidth="300" spacing="20" alignment="TOP_CENTER">
+                <Region minHeight="10"/>
+                <Region minHeight="10"/>
+            </VBox>
+        </left>
+        <right>
+            <Region prefWidth="200"/>
+        </right>
+
+        <bottom>
+            <HBox prefHeight="150" alignment="CENTER" spacing="20">
+                <Region minWidth="20"/>
+                <Region minWidth="20"/>
+            </HBox>
+        </bottom>
+
+        <center>
+            <GridPane fx:id="cardGrid"
+                      hgap="20.0" vgap="20.0"
+                      alignment="CENTER"/>
+        </center>
+    </BorderPane>
+</StackPane>
