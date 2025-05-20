@@ -19,12 +19,18 @@
 
         <!-- 🔼 GÓRA – gracz -->
         <top>
-            <HBox alignment="CENTER" prefHeight="100" style="-fx-padding: 40 0 0 0;">
+            <StackPane prefHeight="100" style="-fx-padding: 40 40 0 40;">
+                <!-- Wyśrodkowany tekst hasła -->
                 <Label fx:id="playerLabel" text="Hasło: ZAMEK"
-                       style="-fx-text-fill: white;
-                       -fx-font-size: 35px;
-                       -fx-font-weight: bold;" />
-            </HBox>
+                       style="-fx-text-fill: white; -fx-font-size: 40px; -fx-font-weight: bold;"
+                       StackPane.alignment="CENTER" />
+
+                <!-- Czas w prawym górnym rogu -->
+                <Label fx:id="timerLabel" text="Czas: 60s"
+                       style="-fx-text-fill: yellow; -fx-font-size: 35px; -fx-font-weight: bold;"
+                       StackPane.alignment="TOP_RIGHT" />
+            </StackPane>
+
         </top>
         <left>
             <VBox fx:id="scorePanel"
@@ -80,17 +86,35 @@
                               -fx-font-weight: bold;" />
 
                 <Label text="Rozmiar: "
-                       style="-fx-text-fill: white; -fx-font-size: 20px; -fx-font-weight: bold;" />
+                       style="-fx-text-fill: white;
+                       -fx-font-size: 20px;
+                       -fx-font-weight: bold;" />
 
                 <Slider fx:id="sizeSlider"
                         min="1" max="20" value="2"
                         prefWidth="150"
-                        style="-fx-padding: 0 0 10 0; -fx-font-size: 14px; -fx-font-weight: bold;" />
+                        style="-fx-padding: 0 0 10 0;
+                        -fx-font-size: 14px;
+                        -fx-font-weight: bold;" />
 
                 <Button fx:id="clearButton" text="Wyczyść"
                         prefWidth="150"
-                        prefHeight="40"
-                        style="-fx-background-color: #cc0000; -fx-text-fill: white; -fx-font-size: 20px; -fx-font-weight: bold;" />
+                        prefHeight="50"
+                        style="-fx-background-color: #28a745;
+                        -fx-text-fill: white;
+                        -fx-font-size: 20px;
+                        -fx-font-weight: bold;" />
+
+                <Region VBox.vgrow="ALWAYS"/>
+
+                <Button fx:id="endButton" text="Zakończ"
+                        prefWidth="150"
+                        prefHeight="50"
+                        style="-fx-background-color: #cc3300;
+                        -fx-text-fill: white;
+                        -fx-font-size: 20px;
+                        -fx-font-weight: bold;
+                        -fx-translate-y: -30;" />
 
             </VBox>
         </right>

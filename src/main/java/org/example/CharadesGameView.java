@@ -8,6 +8,10 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+import javafx.util.Duration;
+
 
 
 public class CharadesGameView {
@@ -17,9 +21,15 @@ public class CharadesGameView {
     @FXML private ColorPicker colorPicker;
     @FXML private ToggleButton eraserToggle;
     @FXML private ToggleButton drawLine, drawRect, drawOval;
-    private double startX, startY;
     @FXML private Slider sizeSlider;
     @FXML private Button clearButton;
+    @FXML private Label timerLabel;
+    @FXML private Button endButton;
+
+    private double startX, startY;
+    private Timeline timer;
+    private int timeLeft = 60;
+
 
 
     private GraphicsContext gc;
@@ -38,6 +48,13 @@ public class CharadesGameView {
         drawRect.setToggleGroup(drawModes);
         drawOval.setToggleGroup(drawModes);
 
+        drawLine.setOnAction(e -> updateToggleStyles());
+        drawRect.setOnAction(e -> updateToggleStyles());
+        drawOval.setOnAction(e -> updateToggleStyles());
+        eraserToggle.setOnAction(e -> updateToggleStyles());
+
+        endButton.setOnAction(e -> disableDrawingTools());
+
         // Rysowanie
         gc = drawingCanvas.getGraphicsContext2D();
 
@@ -45,14 +62,6 @@ public class CharadesGameView {
         gc.fillRect(0, 0, drawingCanvas.getWidth(), drawingCanvas.getHeight());
 
         colorPicker.setValue(Color.BLACK);
-
-        eraserToggle.selectedProperty().addListener((obs, wasSelected, isSelected) -> {
-            if (isSelected) {
-                eraserToggle.setStyle("-fx-background-color: #ff4c4c; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 20px;");
-            } else {
-                eraserToggle.setStyle("-fx-font-size: 20px;");
-            }
-        });
 
         // Obsługa rysowania
         drawingCanvas.addEventHandler(MouseEvent.MOUSE_PRESSED, e -> {
@@ -94,5 +103,63 @@ public class CharadesGameView {
             }
         });
 
+        startTimer();
+
     }
+
+    private void startTimer() {
+        if (timer != null) timer.stop();
+
+        timeLeft = 60;
+        timerLabel.setText("Czas: " + timeLeft + "s");
+
+        timer = new Timeline(new KeyFrame(Duration.seconds(1), e -> {
+            timeLeft--;
+            timerLabel.setText("Czas: " + timeLeft + "s");
+
+            if (timeLeft <= 0) {
+                timer.stop();
+                timerLabel.setText("Koniec czasu!");
+                // Można tu np. wyłączyć rysowanie
+            }
+
+            if (timeLeft <= 10) {
+                timerLabel.setTextFill(Color.WHITE);
+            } else if (timeLeft <= 30) {
+                timerLabel.setTextFill(Color.ORANGE);
+            } else {
+                timerLabel.setTextFill(Color.YELLOW);
+            }
+        }));
+        timer.setCycleCount(Timeline.INDEFINITE);
+        timer.play();
+    }
+
+    private void updateToggleStyles() {
+        String activeStyle = "-fx-background-color: #28a745; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 20px;";
+        String defaultStyle = "-fx-font-size: 20px; -fx-font-weight: bold;";
+
+        ToggleButton[] buttons = {drawLine, drawRect, drawOval, eraserToggle};
+
+        for (ToggleButton btn : buttons) {
+            if (btn.isSelected()) {
+                btn.setStyle(activeStyle);
+            } else {
+                btn.setStyle(defaultStyle);
+            }
+        }
+    }
+
+    private void disableDrawingTools() {
+        colorPicker.setDisable(true);
+        drawLine.setDisable(true);
+        drawRect.setDisable(true);
+        drawOval.setDisable(true);
+        eraserToggle.setDisable(true);
+        sizeSlider.setDisable(true);
+        clearButton.setDisable(true);
+        endButton.setDisable(true); // opcjonalnie blokujemy sam "Zakończ"
+    }
+
+
 }
