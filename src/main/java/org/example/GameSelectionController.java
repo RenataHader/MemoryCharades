@@ -6,12 +6,27 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.ImageView;
 import javafx.geometry.Rectangle2D;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import java.io.IOException;
 
 public class GameSelectionController {
+
+    @FXML
+    private ImageView backgroundImage;
+
+    @FXML
+    public void initialize() {
+        backgroundImage.sceneProperty().addListener((obs, oldScene, newScene) -> {
+            if (newScene != null) {
+                backgroundImage.fitWidthProperty().bind(newScene.widthProperty());
+                backgroundImage.fitHeightProperty().bind(newScene.heightProperty());
+            }
+        });
+    }
+
 
     @FXML
     private void handleMemoryButton(ActionEvent event) throws IOException {
