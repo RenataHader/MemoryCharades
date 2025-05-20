@@ -10,6 +10,7 @@ import javafx.stage.Stage;
 
 public class MemoryCharades extends Application {
 
+    /*
     public void start(Stage primaryStage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("/org/example/MemoryGameView.fxml"));
         Rectangle2D screenBounds = Screen.getPrimary().getVisualBounds();
@@ -22,6 +23,17 @@ public class MemoryCharades extends Application {
         primaryStage.setHeight(screenBounds.getHeight());
         primaryStage.setMaximized(true);
 
+        primaryStage.show();
+    }
+     */
+
+    public void start(Stage primaryStage) throws Exception {
+        Parent root = FXMLLoader.load(getClass().getResource("/org/example/CharadesGameView.fxml"));
+        Scene scene = new Scene(root);
+
+        primaryStage.setTitle("Charades Game");
+        primaryStage.setScene(scene);
+        primaryStage.setMaximized(true);
         primaryStage.show();
     }
 
