@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.image.ImageView?>
+
+<?import javafx.scene.canvas.Canvas?>
+<StackPane xmlns="http://javafx.com/javafx"
+           xmlns:fx="http://javafx.com/fxml"
+           fx:controller="org.example.CharadesGameView">
+
+    <ImageView fx:id="backgroundImage"
+               pickOnBounds="true"
+               preserveRatio="false"
+               StackPane.alignment="CENTER" />
+
+    <!-- Główna siatka gry -->
+    <BorderPane fx:id="mainLayout" style="-fx-background-color: transparent;">
+
+        <!-- 🔼 GÓRA – gracz -->
+        <top>
+            <HBox alignment="CENTER" prefHeight="100" style="-fx-padding: 40 0 0 0;">
+                <Label fx:id="playerLabel" text="Hasło: ZAMEK"
+                       style="-fx-text-fill: white;
+                       -fx-font-size: 35px;
+                       -fx-font-weight: bold;" />
+            </HBox>
+        </top>
+        <left>
+            <VBox fx:id="scorePanel"
+                  prefWidth="200"
+                  spacing="10"
+                  alignment="TOP_CENTER"
+                  style="-fx-background-color: rgba(0,0,0,0.5); -fx-padding: 20;">
+
+                <Label text="Wyniki:"
+                       style="-fx-text-fill: white;-fx-font-size: 24px; -fx-font-weight: bold;" />
+
+                <Separator/>
+            </VBox>
+        </left>
+
+        <!-- Prawy margines -->
+        <right>
+            <VBox spacing="10"
+                  alignment="TOP_CENTER"
+                  style="-fx-background-color: rgba(0,0,0,0.5); -fx-padding: 20;"
+                  prefWidth="200">
+
+                <Label text="Narzędzia:"
+                       style="-fx-text-fill: white; -fx-font-size: 24px; -fx-font-weight: bold;" />
+
+                <Separator/>
+
+                <ColorPicker fx:id="colorPicker"
+                             prefWidth="150"
+                             prefHeight="50"
+                             style="-fx-font-size: 20px;
+                             -fx-font-weight: bold;" />
+
+                <ToggleButton fx:id="eraserToggle" text="Gumka"
+                              prefWidth="150" prefHeight="50"
+                              style="-fx-font-size: 20px;
+                              -fx-font-weight: bold;"
+                              styleClass="eraser-button"/>
+
+                <ToggleButton fx:id="drawLine" text="Linia"
+                              prefWidth="150" prefHeight="50"
+                              style="-fx-font-size: 20px;
+                              -fx-font-weight: bold;" />
+
+                <ToggleButton fx:id="drawRect" text="Prostokąt"
+                              prefWidth="150" prefHeight="50"
+                              style="-fx-font-size: 20px;
+                              -fx-font-weight: bold;" />
+
+                <ToggleButton fx:id="drawOval" text="Okrąg"
+                              prefWidth="150" prefHeight="50"
+                              style="-fx-font-size: 20px;
+                              -fx-font-weight: bold;" />
+
+                <Label text="Rozmiar: "
+                       style="-fx-text-fill: white; -fx-font-size: 20px; -fx-font-weight: bold;" />
+
+                <Slider fx:id="sizeSlider"
+                        min="1" max="20" value="2"
+                        prefWidth="150"
+                        style="-fx-padding: 0 0 10 0; -fx-font-size: 14px; -fx-font-weight: bold;" />
+
+                <Button fx:id="clearButton" text="Wyczyść"
+                        prefWidth="150"
+                        prefHeight="40"
+                        style="-fx-background-color: #cc0000; -fx-text-fill: white; -fx-font-size: 20px; -fx-font-weight: bold;" />
+
+            </VBox>
+        </right>
+
+        <!-- 🎨 Centrum – rysowanie -->
+        <center>
+            <VBox alignment="CENTER">
+                <Canvas fx:id="drawingCanvas" width="900" height="600"/>
+            </VBox>
+        </center>
+    </BorderPane>
+</StackPane>

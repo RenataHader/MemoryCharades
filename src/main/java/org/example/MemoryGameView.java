@@ -8,8 +8,6 @@ import javafx.scene.layout.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
-import java.util.concurrent.atomic.AtomicInteger;
-
 public class MemoryGameView {
     @FXML
     private GridPane cardGrid;

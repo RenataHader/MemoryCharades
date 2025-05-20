@@ -22,7 +22,7 @@ public class MemoryGame extends Game {
     @Override
     public void startGame() {
         if (players.size() < 1) {
-            System.out.println("Nie można rozpocząć gry bez graczy.");
+            System.out.println("Nie mozna rozpoczac gry bez graczy.");
             return;
         }
 
@@ -31,7 +31,7 @@ public class MemoryGame extends Game {
         currentPlayerIndex = 0;
         generateBoard();
 
-        System.out.println("Gra Memory rozpoczęta! Graczy: " + players.size());
+        System.out.println("Gra Memory rozpoczeta! Graczy: " + players.size());
     }
 
     @Override
