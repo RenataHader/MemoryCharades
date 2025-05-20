@@ -10,28 +10,11 @@ import javafx.stage.Stage;
 
 public class MemoryCharades extends Application {
 
-    /*
-    public void start(Stage primaryStage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("/org/example/MemoryGameView.fxml"));
-        Rectangle2D screenBounds = Screen.getPrimary().getVisualBounds();
-        Scene scene = new Scene(root, screenBounds.getWidth(), screenBounds.getHeight());
-        primaryStage.setTitle("Memory Game (FXML)");
-        primaryStage.setScene(scene);
-        primaryStage.setX(screenBounds.getMinX());
-        primaryStage.setY(screenBounds.getMinY());
-        primaryStage.setWidth(screenBounds.getWidth());
-        primaryStage.setHeight(screenBounds.getHeight());
-        primaryStage.setMaximized(true);
-
-        primaryStage.show();
-    }
-     */
-
     public void start(Stage primaryStage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("/org/example/GameSelectionView.fxml"));
         Scene scene = new Scene(root);
 
-        primaryStage.setTitle("Charades Game");
+        primaryStage.setTitle("MemoryCharades Game");
         primaryStage.setScene(scene);
         primaryStage.setMaximized(true);
         primaryStage.show();
