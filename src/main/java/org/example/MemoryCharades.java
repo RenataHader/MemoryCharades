@@ -14,7 +14,7 @@ public class MemoryCharades extends Application {
         Parent root = FXMLLoader.load(getClass().getResource("/org/example/GameSelectionView.fxml"));
         Scene scene = new Scene(root);
 
-        primaryStage.setTitle("MemoryCharades Game");
+        primaryStage.setTitle("Select Game");
         primaryStage.setScene(scene);
         primaryStage.setMaximized(true);
         primaryStage.show();
