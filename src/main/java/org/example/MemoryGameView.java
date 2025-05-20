@@ -7,6 +7,9 @@ import javafx.scene.layout.*;
 
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.animation.RotateTransition;
+import javafx.util.Duration;
+
 
 public class MemoryGameView {
     @FXML
@@ -30,6 +33,24 @@ public class MemoryGameView {
 
     int rows = game.getRows();
     int cols = game.getCols();
+
+    private void flipCard(Button cardButton, ImageView cardView, Image backImage, Image frontImage) {
+        RotateTransition flipOut = new RotateTransition(Duration.millis(200), cardView);
+        flipOut.setFromAngle(0);
+        flipOut.setToAngle(90);
+
+        RotateTransition flipIn = new RotateTransition(Duration.millis(200), cardView);
+        flipIn.setFromAngle(270);
+        flipIn.setToAngle(360);
+
+        flipOut.setOnFinished(event -> {
+            cardView.setImage(frontImage);
+            flipIn.play();
+        });
+
+        flipOut.play();
+    }
+
 
     @FXML
     public void initialize() {
@@ -78,9 +99,23 @@ public class MemoryGameView {
                     cardButton.setGraphic(cardView);
                     cardButton.setStyle("-fx-background-color: transparent;");
                     cardButton.setPrefSize(cardWidth, cardHeight);
+
+                    int row = i;
+                    int col = j;
+
+                    cardButton.setOnAction(e -> {
+                        MemoryGame.Card card = game.getBoard()[row][col];
+                        if (card.isRevealed() || card.isMatched()) return;
+
+                        card.setRevealed(true);
+                        Image frontImage = new Image(getClass().getResource("/images/card_1.png").toExternalForm()); // na razie jedna karta
+                        flipCard(cardButton, cardView, cardBackImage, frontImage);
+                    });
+
                     cardGrid.add(cardButton, j, i);
                 }
             }
+
             cardGrid.setMaxSize(Region.USE_PREF_SIZE, Region.USE_PREF_SIZE);
         });
     }
