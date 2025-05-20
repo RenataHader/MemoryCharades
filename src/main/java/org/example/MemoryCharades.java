@@ -28,7 +28,7 @@ public class MemoryCharades extends Application {
      */
 
     public void start(Stage primaryStage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("/org/example/CharadesGameView.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/org/example/GameSelectionView.fxml"));
         Scene scene = new Scene(root);
 
         primaryStage.setTitle("Charades Game");
