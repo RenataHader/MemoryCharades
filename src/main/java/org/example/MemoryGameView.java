@@ -108,9 +108,11 @@ public class MemoryGameView {
                         if (card.isRevealed() || card.isMatched()) return;
 
                         card.setRevealed(true);
-                        Image frontImage = new Image(getClass().getResource("/images/card_1.png").toExternalForm()); // na razie jedna karta
+                        int cardId = card.getId();
+                        Image frontImage = new Image(getClass().getResource("/images/card_" + cardId + ".png").toExternalForm());
                         flipCard(cardButton, cardView, cardBackImage, frontImage);
                     });
+
 
                     cardGrid.add(cardButton, j, i);
                 }
