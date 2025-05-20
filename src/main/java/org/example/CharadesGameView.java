@@ -1,6 +1,9 @@
 package org.example;
 
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.*;
@@ -10,8 +13,10 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.stage.Stage;
 import javafx.util.Duration;
 
+import java.io.IOException;
 
 
 public class CharadesGameView {
@@ -25,6 +30,8 @@ public class CharadesGameView {
     @FXML private Button clearButton;
     @FXML private Label timerLabel;
     @FXML private Button endButton;
+    @FXML private Button exitButton;
+
 
     private double startX, startY;
     private Timeline timer;
@@ -103,6 +110,7 @@ public class CharadesGameView {
             }
         });
 
+        exitButton.setOnAction(e -> switchToGameSelection());
         startTimer();
 
     }
@@ -124,11 +132,11 @@ public class CharadesGameView {
             }
 
             if (timeLeft <= 10) {
-                timerLabel.setTextFill(Color.WHITE);
+                timerLabel.setTextFill(Color.ORANGE);
             } else if (timeLeft <= 30) {
                 timerLabel.setTextFill(Color.ORANGE);
             } else {
-                timerLabel.setTextFill(Color.YELLOW);
+                timerLabel.setTextFill(Color.WHITE);
             }
         }));
         timer.setCycleCount(Timeline.INDEFINITE);
@@ -158,8 +166,24 @@ public class CharadesGameView {
         eraserToggle.setDisable(true);
         sizeSlider.setDisable(true);
         clearButton.setDisable(true);
-        endButton.setDisable(true); // opcjonalnie blokujemy sam "Zakończ"
+        endButton.setDisable(true);
     }
 
+    private void switchToGameSelection() {
+        try {
+            // Załaduj FXML nowej sceny
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/GameSelectionView.fxml"));
+            Parent gameSelectionRoot = loader.load();
+
+            // Pobierz aktualną scenę z przycisku
+            Scene currentScene = exitButton.getScene();
+            Stage currentStage = (Stage) currentScene.getWindow();
+
+            // Ustaw nową scenę
+            currentStage.setScene(new Scene(gameSelectionRoot));
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }
 
 }

@@ -19,7 +19,15 @@
 
         <!-- 🔼 GÓRA – gracz -->
         <top>
-            <StackPane prefHeight="100" style="-fx-padding: 40 40 0 40;">
+            <StackPane prefHeight="100" style="-fx-padding: 40 30 0 20;">
+                <Button fx:id="exitButton" text="Wyjdź"
+                        prefWidth="160" prefHeight="50"
+                        style="-fx-background-color: #cc3300;
+                        -fx-text-fill: white;
+                        -fx-font-size: 20px;
+                        -fx-font-weight: bold;"
+                        StackPane.alignment="TOP_LEFT" />
+
                 <!-- Wyśrodkowany tekst hasła -->
                 <Label fx:id="playerLabel" text="Hasło: ZAMEK"
                        style="-fx-text-fill: white; -fx-font-size: 40px; -fx-font-weight: bold;"
@@ -27,7 +35,7 @@
 
                 <!-- Czas w prawym górnym rogu -->
                 <Label fx:id="timerLabel" text="Czas: 60s"
-                       style="-fx-text-fill: yellow; -fx-font-size: 35px; -fx-font-weight: bold;"
+                       style="-fx-text-fill: white; -fx-font-size: 35px; -fx-font-weight: bold;"
                        StackPane.alignment="TOP_RIGHT" />
             </StackPane>
 
