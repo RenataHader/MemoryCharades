@@ -19,6 +19,16 @@ public class MemoryGame extends Game {
         generateBoard();
     }
 
+    public void printBoard() {
+        System.out.println("Aktualna tablica kart (id):");
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                System.out.printf("%2d ", board[i][j].getId());
+            }
+            System.out.println();
+        }
+    }
+
     @Override
     public void startGame() {
         if (players.size() < 1) {

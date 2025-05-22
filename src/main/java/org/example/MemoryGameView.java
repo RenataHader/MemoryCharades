@@ -29,6 +29,13 @@ public class MemoryGameView {
 
 
     private final MemoryGame game = new MemoryGame();
+    private Button firstCardButton = null;
+    private Button secondCardButton = null;
+    private ImageView firstCardView = null;
+    private ImageView secondCardView = null;
+    private int firstRow = -1, firstCol = -1;
+    private boolean isProcessing = false;
+
     private Image cardBackImage;
 
     int rows = game.getRows();
@@ -49,6 +56,19 @@ public class MemoryGameView {
         });
 
         flipOut.play();
+    }
+
+    private void resetSelection() {
+        firstCardButton = null;
+        secondCardButton = null;
+        firstCardView = null;
+        secondCardView = null;
+        firstRow = -1;
+        firstCol = -1;
+    }
+
+    private Image frontImageFromId(int id) {
+        return new Image(getClass().getResource("/images/card_" + id + ".png").toExternalForm());
     }
 
 
@@ -86,6 +106,8 @@ public class MemoryGameView {
             System.out.println(cardWidth);
 
             game.startGame();
+            game.printBoard();
+
             cardGrid.getChildren().clear();
 
             for (int i = 0; i < rows; i++) {
@@ -104,6 +126,8 @@ public class MemoryGameView {
                     int col = j;
 
                     cardButton.setOnAction(e -> {
+                        if (isProcessing) return;
+
                         MemoryGame.Card card = game.getBoard()[row][col];
                         if (card.isRevealed() || card.isMatched()) return;
 
@@ -111,7 +135,53 @@ public class MemoryGameView {
                         int cardId = card.getId();
                         Image frontImage = new Image(getClass().getResource("/images/card_" + cardId + ".png").toExternalForm());
                         flipCard(cardButton, cardView, cardBackImage, frontImage);
+
+                        if (firstCardButton == null) {
+                            firstCardButton = cardButton;
+                            firstCardView = cardView;
+                            firstRow = row;
+                            firstCol = col;
+                        } else if (secondCardButton == null) {
+                            secondCardButton = cardButton;
+                            secondCardView = cardView;
+                            isProcessing = true;
+
+                            MemoryGame.Card firstCard = game.getBoard()[firstRow][firstCol];
+                            MemoryGame.Card secondCard = card;
+
+                            // Sprawdź, czy to para
+                            if (firstCard.getId() == secondCard.getId()) {
+                                firstCard.setMatched(true);
+                                secondCard.setMatched(true);
+                                game.getPlayers().get(game.getCurrentPlayerIndex()).increaseScore(1);
+
+                                // Reset
+                                resetSelection();
+
+                                if (game.getMatchedPairs() >= (rows * cols) / 2) {
+                                    System.out.println("Gra zakończona!");
+                                }
+
+                                isProcessing = false;
+                            } else {
+                                // Jeśli nie pasują – odwróć po chwili
+                                javafx.animation.PauseTransition pause = new javafx.animation.PauseTransition(Duration.seconds(1.0));
+                                pause.setOnFinished(ev -> {
+                                    firstCard.setRevealed(false);
+                                    secondCard.setRevealed(false);
+
+                                    flipCard(firstCardButton, firstCardView, frontImageFromId(firstCard.getId()), cardBackImage);
+                                    flipCard(secondCardButton, secondCardView, frontImageFromId(secondCard.getId()), cardBackImage);
+
+                                    game.setCurrentPlayerIndex((game.getCurrentPlayerIndex() + 1) % game.getPlayers().size());
+                                    resetSelection();
+                                    isProcessing = false;
+                                });
+                                pause.play();
+                            }
+                        }
                     });
+
 
 
                     cardGrid.add(cardButton, j, i);
