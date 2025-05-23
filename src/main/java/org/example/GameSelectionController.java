@@ -27,7 +27,7 @@ public class GameSelectionController {
 
     @FXML
     private void handleMemoryButton() throws IOException {
-        Parent memoryView = FXMLLoader.load(getClass().getResource("/org/example/MemoryGameView.fxml"));
+        Parent memoryView = FXMLLoader.load(getClass().getResource("/org/example/MemorySettingsView.fxml"));
         mainContainer.getChildren().setAll(memoryView);
     }
 
@@ -37,3 +37,4 @@ public class GameSelectionController {
         mainContainer.getChildren().setAll(charadesView);
     }
 }
+
