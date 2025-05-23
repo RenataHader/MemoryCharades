@@ -1,5 +1,6 @@
 package org.example;
 
+import javafx.animation.PauseTransition;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -12,23 +13,15 @@ import javafx.util.Duration;
 
 
 public class MemoryGameView {
-    @FXML
-    private GridPane cardGrid;
 
-    @FXML
-    private ImageView backgroundImage;
-
-    @FXML
-    private Label playerLabel;
-
-    @FXML
-    private Label scoreLabel;
-
-    @FXML
-    private Label userLabel;
-
+    @FXML private GridPane cardGrid;
+    @FXML private ImageView backgroundImage;
+    @FXML private Label playerLabel;
+    @FXML private Label scoreLabel;
+    @FXML private Label userLabel;
 
     private final MemoryGame game = new MemoryGame();
+    private final MemoryGameController controller = new MemoryGameController(game);
     private Button firstCardButton = null;
     private Button secondCardButton = null;
     private ImageView firstCardView = null;
@@ -126,14 +119,10 @@ public class MemoryGameView {
                     int col = j;
 
                     cardButton.setOnAction(e -> {
-                        if (isProcessing) return;
+                        if (isProcessing || !controller.canFlipCard(row, col)) return;
 
-                        MemoryGame.Card card = game.getBoard()[row][col];
-                        if (card.isRevealed() || card.isMatched()) return;
-
-                        card.setRevealed(true);
-                        int cardId = card.getId();
-                        Image frontImage = new Image(getClass().getResource("/images/card_" + cardId + ".png").toExternalForm());
+                        controller.revealCard(row, col);
+                        Image frontImage = frontImageFromId(controller.getCardId(row, col));
                         flipCard(cardButton, cardView, cardBackImage, frontImage);
 
                         if (firstCardButton == null) {
@@ -146,34 +135,34 @@ public class MemoryGameView {
                             secondCardView = cardView;
                             isProcessing = true;
 
-                            MemoryGame.Card firstCard = game.getBoard()[firstRow][firstCol];
-                            MemoryGame.Card secondCard = card;
+                            int secondRow = row;
+                            int secondCol = col;
 
-                            // Sprawdź, czy to para
-                            if (firstCard.getId() == secondCard.getId()) {
-                                firstCard.setMatched(true);
-                                secondCard.setMatched(true);
-                                game.getPlayers().get(game.getCurrentPlayerIndex()).increaseScore(1);
+                            boolean match = controller.isPairMatched(firstRow, firstCol, secondRow, secondCol);
 
-                                // Reset
-                                resetSelection();
-
-                                if (game.getMatchedPairs() >= (rows * cols) / 2) {
-                                    System.out.println("Gra zakończona!");
-                                }
-
-                                isProcessing = false;
-                            } else {
-                                // Jeśli nie pasują – odwróć po chwili
-                                javafx.animation.PauseTransition pause = new javafx.animation.PauseTransition(Duration.seconds(1.0));
+                            if (match) {
+                                PauseTransition pause = new PauseTransition(Duration.seconds(2));
                                 pause.setOnFinished(ev -> {
-                                    firstCard.setRevealed(false);
-                                    secondCard.setRevealed(false);
+                                    // Ukryj trafione przyciski
+                                    firstCardButton.setVisible(false);
+                                    secondCardButton.setVisible(false);
 
-                                    flipCard(firstCardButton, firstCardView, frontImageFromId(firstCard.getId()), cardBackImage);
-                                    flipCard(secondCardButton, secondCardView, frontImageFromId(secondCard.getId()), cardBackImage);
+                                    resetSelection();
+                                    isProcessing = false;
 
-                                    game.setCurrentPlayerIndex((game.getCurrentPlayerIndex() + 1) % game.getPlayers().size());
+                                    if (controller.isGameOver()) {
+                                        System.out.println("Gra zakończona!");
+                                    }
+                                });
+                                pause.play();
+                            } else {
+                                PauseTransition pause = new PauseTransition(Duration.seconds(2));
+                                pause.setOnFinished(ev -> {
+                                    controller.hideCard(firstRow, firstCol);
+                                    controller.hideCard(secondRow, secondCol);
+                                    flipCard(firstCardButton, firstCardView, frontImageFromId(controller.getCardId(firstRow, firstCol)), cardBackImage);
+                                    flipCard(secondCardButton, secondCardView, frontImageFromId(controller.getCardId(secondRow, secondCol)), cardBackImage);
+                                    controller.nextPlayer();
                                     resetSelection();
                                     isProcessing = false;
                                 });

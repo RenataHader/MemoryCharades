@@ -35,6 +35,26 @@ public class MemoryGameController {
         return game.getMatchedPairs() >= totalPairs;
     }
 
+    public boolean canFlipCard(int row, int col) {
+        return !game.getBoard()[row][col].isMatched() && !game.getBoard()[row][col].isRevealed();
+    }
+
+    public void revealCard(int row, int col) {
+        game.getBoard()[row][col].setRevealed(true);
+    }
+
+    public void hideCard(int row, int col) {
+        game.getBoard()[row][col].setRevealed(false);
+    }
+
+    public int getCardId(int row, int col) {
+        return game.getBoard()[row][col].getId();
+    }
+
+    public boolean isCardMatched(int row, int col) {
+        return game.getBoard()[row][col].isMatched();
+    }
+
     public MemoryGame getGame() {
         return game;
     }
