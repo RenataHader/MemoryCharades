@@ -29,46 +29,40 @@ public class MemorySettingsController {
 
     @FXML
     private void handleStartButton() {
-        // 1. Walidacja nicku
         String nickname = nicknameField.getText().trim();
         if (nickname.isEmpty()) {
             showAlert("Wprowadź nickname!");
-            nicknameField.requestFocus(); // Podświetl pole
+            nicknameField.requestFocus();
             return;
         }
 
-        // 2. Walidacja wyboru planszy
         if (difficultyGroup.getSelectedToggle() == null) {
             showAlert("Wybierz rozmiar planszy!");
             return;
         }
 
-        // 3. Walidacja liczby graczy
         if (playersComboBox.getValue() == null) {
             showAlert("Wybierz liczbę graczy!");
             playersComboBox.requestFocus();
             return;
         }
 
-        // 4. Pobierz wszystkie dane
         int cardCount = Integer.parseInt(difficultyGroup.getSelectedToggle().getUserData().toString());
         int players = playersComboBox.getValue();
         boolean timerEnabled = timerCheckbox.isSelected();
 
-        System.out.println("Uruchamiam grę z ustawieniami:");
-        System.out.println("Nick: " + nickname);
-        System.out.println("Karty: " + cardCount);
-        System.out.println("Gracze: " + players);
-        System.out.println("Timer: " + timerEnabled);
+        // 4.5 Stwórz gracza
+        Player currentPlayer = new Player(nickname);
+        System.out.println("Utworzono gracza: " + currentPlayer.getNickname() + " (ID: " + currentPlayer.getPlayerId() + ")");
 
         // 5. Przejdź do gry
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/MemoryGameView.fxml"));
             Parent gameView = loader.load();
 
-            // Przekaż parametry do kontrolera gry jeśli potrzebne
+            // Możesz tu przekazać gracza i ustawienia do kontrolera gry:
             // MemoryGameController controller = loader.getController();
-            // controller.initData(nickname, cardCount, players, timerEnabled);
+            // controller.initData(currentPlayer, cardCount, players, timerEnabled);
 
             StackPane root = (StackPane) nicknameField.getScene().getRoot();
             root.getChildren().setAll(gameView);
@@ -78,6 +72,7 @@ public class MemorySettingsController {
             showAlert("Błąd podczas ładowania gry: " + e.getMessage());
         }
     }
+
 
     @FXML
     private void handleBackButton() throws IOException {

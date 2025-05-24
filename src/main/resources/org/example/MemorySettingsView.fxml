@@ -1,76 +1,75 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.collections.FXCollections?>
-<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.text.Text?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.image.*?>
 <?import java.lang.Integer?>
-
 
 <StackPane xmlns="http://javafx.com/javafx/8.0.171"
            xmlns:fx="http://javafx.com/fxml/1"
            fx:controller="org.example.MemorySettingsController">
 
-    <!-- Tło -->
-    <ImageView fx:id="backgroundImage" preserveRatio="false" opacity="0.85">
+    <!-- Pełnoekranowe tło -->
+    <ImageView fx:id="backgroundImage" preserveRatio="false" fitWidth="1920" fitHeight="1080">
         <Image url="@/images/table.png" />
     </ImageView>
 
-    <!-- Główny kontener -->
-    <VBox alignment="CENTER" spacing="20"
-          style="-fx-background-color: rgba(255,255,255,0.15); -fx-background-radius: 25; -fx-padding: 40;">
+    <!-- Główna zawartość -->
+    <VBox alignment="CENTER" spacing="20" style="-fx-padding: 40;">
 
-        <!-- ToggleGroup MUSI być zadeklarowany jako property, a nie jako element wizualny -->
         <fx:define>
             <ToggleGroup fx:id="difficultyGroup"/>
         </fx:define>
 
         <Text text="Ustawienia Memory"
-              style="-fx-font-size: 36px; -fx-fill: #ffffff; -fx-font-weight: bold;" />
+              style="-fx-font-size: 36px; -fx-fill: white; -fx-font-weight: bold;" />
 
-        <!-- Nickname -->
-        <TextField fx:id="nicknameField" promptText="Twój nick"
-                   style="-fx-font-size: 18px; -fx-pref-width: 240px;" />
-
-        <!-- Wymiary kart -->
-        <Text text="Wybierz rozmiar planszy (liczba kart):"
-              style="-fx-font-size: 18px; -fx-fill: #ffffff;" />
-        <VBox spacing="5">
-            <RadioButton text="3 x 4 (12 kart)" toggleGroup="$difficultyGroup" userData="12" selected="true"
-                         style="-fx-text-fill: white; -fx-font-size: 16px;" />
-            <RadioButton text="3 x 6 (18 kart)" toggleGroup="$difficultyGroup" userData="18"
-                         style="-fx-text-fill: white; -fx-font-size: 16px;" />
-            <RadioButton text="3 x 8 (24 kart)" toggleGroup="$difficultyGroup" userData="24"
-                         style="-fx-text-fill: white; -fx-font-size: 16px;" />
+        <VBox spacing="10" alignment="CENTER_LEFT">
+            <Text text="Wprowadź nick"
+                  style="-fx-font-size: 18px; -fx-fill: white; -fx-font-weight: bold;" />
+            <Label text="Podaj swój nickname:"
+                   style="-fx-font-size: 14px; -fx-text-fill: white;" />
+            <TextField fx:id="nicknameField" promptText="np. Gracz123"
+                       style="-fx-font-size: 14px; -fx-pref-width: 150px;" />
         </VBox>
 
-        <!-- Timer -->
-        <CheckBox fx:id="timerCheckbox" text="Włącz licznik czasu"
-                  style="-fx-font-size: 16px; -fx-text-fill: white;" />
+        <Text text="Wybierz rozmiar planszy (liczba kart):"
+              style="-fx-font-size: 16px; -fx-fill: white;" />
+        <VBox spacing="5">
+            <RadioButton text="3 x 4 (12 kart)" toggleGroup="$difficultyGroup" userData="12" selected="true"
+                         style="-fx-text-fill: white; -fx-font-size: 14px;" />
+            <RadioButton text="3 x 6 (18 kart)" toggleGroup="$difficultyGroup" userData="18"
+                         style="-fx-text-fill: white; -fx-font-size: 14px;" />
+            <RadioButton text="3 x 8 (24 kart)" toggleGroup="$difficultyGroup" userData="24"
+                         style="-fx-text-fill: white; -fx-font-size: 14px;" />
+        </VBox>
 
-        <!-- Liczba graczy -->
-        <Text text="Liczba graczy:" style="-fx-font-size: 18px; -fx-fill: #ffffff;" />
-        <ComboBox fx:id="playersComboBox" promptText="Wybierz liczbę graczy"
-                  style="-fx-font-size: 16px; -fx-pref-width: 100px;">
+        <CheckBox fx:id="timerCheckbox" text="Włącz licznik czasu"
+                  selected="true"
+                  style="-fx-font-size: 14px; -fx-text-fill: white;" />
+
+        <Text text="Liczba graczy:" style="-fx-font-size: 16px; -fx-fill: white;" />
+        <ComboBox fx:id="playersComboBox" promptText="Wybierz..."
+                  style="-fx-font-size: 14px; -fx-pref-width: 100px;">
             <items>
                 <FXCollections fx:factory="observableArrayList">
                     <Integer fx:value="2" />
                     <Integer fx:value="3" />
                     <Integer fx:value="4" />
-                    <Integer fx:value="5" />
                 </FXCollections>
             </items>
         </ComboBox>
 
-        <!-- Przyciski -->
         <HBox spacing="20" alignment="CENTER">
             <Button text="Start" onAction="#handleStartButton"
-                    style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-size: 18px;" />
+                    style="-fx-background-color: #4CAF50; -fx-text-fill: white;
+                           -fx-font-size: 16px; -fx-pref-width: 100px;
+                           -fx-font-weight: bold;" />
             <Button text="Powrót" onAction="#handleBackButton"
-                    style="-fx-background-color: #F44336; -fx-text-fill: white; -fx-font-size: 18px;" />
+                    style="-fx-background-color: #F44336; -fx-text-fill: white;
+                           -fx-font-size: 16px; -fx-pref-width: 100px;" />
         </HBox>
     </VBox>
 </StackPane>
