@@ -10,6 +10,9 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.animation.RotateTransition;
 import javafx.util.Duration;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+import javafx.util.Duration;
 
 
 public class MemoryGameView {
@@ -19,6 +22,7 @@ public class MemoryGameView {
     @FXML private Label playerLabel;
     @FXML private Label scoreLabel;
     @FXML private Label userLabel;
+    @FXML private Label timerLabel;
 
     private final MemoryGame game = new MemoryGame();
     private final MemoryGameController controller = new MemoryGameController(game);
@@ -28,6 +32,8 @@ public class MemoryGameView {
     private ImageView secondCardView = null;
     private int firstRow = -1, firstCol = -1;
     private boolean isProcessing = false;
+    private Timeline timer;
+    private int timeRemaining = 20;
 
     private Image cardBackImage;
 
@@ -64,6 +70,24 @@ public class MemoryGameView {
         return new Image(getClass().getResource("/images/card_" + id + ".png").toExternalForm());
     }
 
+    private void startTimer() {
+        timerLabel.setText("Czas: " + timeRemaining + "s");
+
+        timer = new Timeline(new KeyFrame(Duration.seconds(1), e -> {
+            timeRemaining--;
+            timerLabel.setText("Czas: " + timeRemaining + "s");
+
+            if (timeRemaining <= 0) {
+                timer.stop();
+                timerLabel.setText("Czas: 0s");
+                System.out.println("Czas minął!");
+                // Tu trzeba jeszcze dodać co sie dzieje jak minie czas
+            }
+        }));
+        timer.setCycleCount(Timeline.INDEFINITE);
+        timer.play();
+    }
+
 
     @FXML
     public void initialize() {
@@ -97,6 +121,12 @@ public class MemoryGameView {
 
             System.out.println(cardHeight);
             System.out.println(cardWidth);
+
+//            try {
+//                game.addPlayer("Gracz 1");
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
 
             game.startGame();
             game.printBoard();
@@ -179,5 +209,6 @@ public class MemoryGameView {
 
             cardGrid.setMaxSize(Region.USE_PREF_SIZE, Region.USE_PREF_SIZE);
         });
+        startTimer();
     }
 }
