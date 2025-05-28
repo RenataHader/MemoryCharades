@@ -33,7 +33,7 @@ public class GameSelectionController {
 
     @FXML
     private void handleCharadesButton() throws IOException {
-        Parent charadesView = FXMLLoader.load(getClass().getResource("/org/example/CharadesGameView.fxml"));
+        Parent charadesView = FXMLLoader.load(getClass().getResource("/org/example/CharadesSettingsView.fxml"));
         mainContainer.getChildren().setAll(charadesView);
     }
 }
