@@ -9,6 +9,7 @@ import javafx.scene.layout.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.animation.RotateTransition;
+import javafx.scene.paint.Color;
 import javafx.util.Duration;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -82,6 +83,14 @@ public class MemoryGameView {
                 timerLabel.setText("Czas: 0s");
                 System.out.println("Czas minął!");
                 // Tu trzeba jeszcze dodać co sie dzieje jak minie czas
+            }
+
+            if (timeRemaining <= 5) {
+                timerLabel.setTextFill(Color.RED);
+            } else if (timeRemaining <= 10) {
+                timerLabel.setTextFill(Color.ORANGE);
+            } else {
+                timerLabel.setTextFill(Color.WHITE);
             }
         }));
         timer.setCycleCount(Timeline.INDEFINITE);

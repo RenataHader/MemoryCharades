@@ -20,7 +20,7 @@
 
         <top>
             <StackPane prefHeight="100" style="-fx-padding: 40 30 0 20;">
-            <Label fx:id="timerLabel" text="Czas: 60s"
+            <Label fx:id="timerLabel" text="Czas: 20s"
                    style="-fx-text-fill: white; -fx-font-size: 35px; -fx-font-weight: bold;"
                    StackPane.alignment="TOP_RIGHT" />
             </StackPane>
